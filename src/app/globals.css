@@ -1,26 +1,147 @@
 @import "tailwindcss";
 
+/*
+  UniSpace design system.
+
+  Every colour a component can use resolves to a `--us-*` custom property. Those
+  properties are set per university from the database (see lib/theme/tokens.ts),
+  so switching university switches the whole look without touching a component.
+*/
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --us-primary: #4f2fd7;
+  --us-primary-contrast: #ffffff;
+  --us-secondary: #0f172a;
+  --us-secondary-contrast: #ffffff;
+  --us-accent: #ff7a1a;
+  --us-accent-contrast: #1f1300;
+  --us-background: #fbfaff;
+  --us-surface: #ffffff;
+  --us-surface-muted: #f3f1fd;
+  --us-text: #160f33;
+  --us-text-muted: #5b5676;
+  --us-border: #e6e2f7;
+  --us-highlight: #ece7ff;
+  --us-radius: 1.25rem;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-brand: var(--us-primary);
+  --color-brand-contrast: var(--us-primary-contrast);
+  --color-ink: var(--us-secondary);
+  --color-ink-contrast: var(--us-secondary-contrast);
+  --color-accent: var(--us-accent);
+  --color-accent-contrast: var(--us-accent-contrast);
+  --color-canvas: var(--us-background);
+  --color-surface: var(--us-surface);
+  --color-surface-muted: var(--us-surface-muted);
+  --color-content: var(--us-text);
+  --color-content-muted: var(--us-text-muted);
+  --color-hairline: var(--us-border);
+  --color-highlight: var(--us-highlight);
+
+  --radius-theme: var(--us-radius);
+
+  --font-sans: var(--font-display), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  --animate-rise: rise 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-float: float 7s ease-in-out infinite;
+  --animate-shimmer: shimmer 2.2s linear infinite;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@keyframes rise {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 18px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
   }
 }
 
+@keyframes float {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(0, -14px, 0);
+  }
+}
+
+@keyframes shimmer {
+  from {
+    background-position: -200% 0;
+  }
+  to {
+    background-position: 200% 0;
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--us-background);
+  color: var(--us-text);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+/* Visible, theme-aware focus ring on every interactive element. */
+:where(a, button, input, select, textarea, [tabindex]):focus-visible {
+  outline: 3px solid var(--us-primary);
+  outline-offset: 2px;
+  border-radius: 0.5rem;
+}
+
+/*
+  Motion is decoration. Anything animated must be fully legible and operable
+  with animation switched off, so this is a blunt global override by design.
+*/
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Staggered reveal used by card grids; index is set inline as --stagger. */
+.us-stagger {
+  animation: rise 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
+  animation-delay: calc(var(--stagger, 0) * 60ms);
+}
+
+.us-skeleton {
+  background-image: linear-gradient(
+    90deg,
+    var(--us-surface-muted) 0%,
+    var(--us-highlight) 50%,
+    var(--us-surface-muted) 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 2.2s linear infinite;
+}
+
+/* Screen-reader-only utility for labels that must not render visually. */
+.sr-only-focusable:not(:focus):not(:focus-within) {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
 }
