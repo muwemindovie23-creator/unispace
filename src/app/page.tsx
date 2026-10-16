@@ -78,6 +78,8 @@ export default async function HomePage() {
             <div className="absolute -left-24 -top-24 h-72 w-72 rounded-full bg-brand/15 blur-3xl animate-[float_9s_ease-in-out_infinite]" />
             <div className="absolute right-[-6rem] top-24 h-80 w-80 rounded-full bg-accent/20 blur-3xl animate-[float_11s_ease-in-out_infinite_reverse]" />
           </div>
+          
+          <Container className="pb-12 pt-16 text-center sm:pt-24">
 
             <h1
               className="us-stagger mx-auto max-w-4xl text-balance text-4xl font-black leading-[1.05] tracking-tight text-content sm:text-6xl"
