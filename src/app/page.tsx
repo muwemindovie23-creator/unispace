@@ -79,11 +79,6 @@ export default async function HomePage() {
             <div className="absolute right-[-6rem] top-24 h-80 w-80 rounded-full bg-accent/20 blur-3xl animate-[float_11s_ease-in-out_infinite_reverse]" />
           </div>
 
-          <Container className="pb-12 pt-16 text-center sm:pt-24">
-            <p className="us-stagger mx-auto mb-5 inline-flex items-center gap-2 rounded-full border border-hairline bg-surface px-4 py-1.5 text-xs font-bold uppercase tracking-[0.16em] text-brand">
-              One platform · different campus worlds
-            </p>
-
             <h1
               className="us-stagger mx-auto max-w-4xl text-balance text-4xl font-black leading-[1.05] tracking-tight text-content sm:text-6xl"
               style={{ '--stagger': 1 } as React.CSSProperties}
@@ -95,8 +90,7 @@ export default async function HomePage() {
               className="us-stagger mx-auto mt-5 max-w-2xl text-pretty text-base text-content-muted sm:text-lg"
               style={{ '--stagger': 2 } as React.CSSProperties}
             >
-              UniSpace is the student side of campus: what’s happening, who represents you, which
-              is around campus, and the everyday things students wish they had known earlier.
+              UniSpace is the student side of campus: As a product in the Menty ecosystem, it's goal is to show you around campus from the view of those who've been there from what’s happening, who represents you, and the everyday things students wish they had known earlier.
             </p>
 
             <div
@@ -172,7 +166,7 @@ export default async function HomePage() {
                   Become a Verified Campus Business
                 </h3>
                 <p className="mt-2 text-sm text-content-muted">
-                  Students look for food, printing, laundry and everyday services around campus. Apply
+                  Students look for food, printing and everyday services around campus. Apply
                   to be listed, and see exactly what our verification badge does and does not mean.
                 </p>
                 <ButtonLink href="/businesses/verify" className="mt-5">
