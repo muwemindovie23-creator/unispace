@@ -1,4 +1,4 @@
-import { Building2, LayoutList, Palette } from 'lucide-react'
+import { Building2, Footprints, LayoutList, Palette, Store } from 'lucide-react'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 
@@ -63,6 +63,20 @@ export default async function UniversityDetailPage({
       visible: can(actor, PERMISSIONS.UNIVERSITY_HOMEPAGE_MANAGE, {
         universityId: university.id,
       }),
+    },
+    {
+      href: `/admin/universities/${university.id}/businesses`,
+      icon: Store,
+      label: 'Campus businesses',
+      detail: 'Listings in the directory and on the map',
+      visible: can(actor, PERMISSIONS.BUSINESS_READ, { universityId: university.id }),
+    },
+    {
+      href: `/admin/universities/${university.id}/tour`,
+      icon: Footprints,
+      label: 'Virtual campus tour',
+      detail: 'Mapped stops students walk through',
+      visible: can(actor, PERMISSIONS.TOUR_READ, { universityId: university.id }),
     },
   ].filter((link) => link.visible)
 

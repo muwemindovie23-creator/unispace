@@ -1,5 +1,6 @@
 import type { MetadataRoute } from 'next'
 
+import { listPublishedBusinessPaths } from '@/modules/businesses/queries'
 import {
   listPublishedCampusPaths,
   listPublishedUniversitySlugs,
@@ -31,9 +32,10 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     priority: path === '/' ? 1 : 0.5,
   }))
 
-  const [slugs, campusPaths] = await Promise.all([
+  const [slugs, campusPaths, businessPaths] = await Promise.all([
     listPublishedUniversitySlugs(),
     listPublishedCampusPaths(),
+    listPublishedBusinessPaths(),
   ])
   const sectionHrefs: string[] = Object.values(HOMEPAGE_SECTIONS).flatMap((section) =>
     section.href === null ? [] : [section.href],
@@ -63,6 +65,15 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       lastModified,
       changeFrequency: 'weekly',
       priority: 0.8,
+    })
+  }
+
+  for (const path of businessPaths) {
+    entries.push({
+      url: `${base}/universities/${path.universitySlug}/businesses/${path.businessSlug}`,
+      lastModified,
+      changeFrequency: 'weekly',
+      priority: 0.6,
     })
   }
 

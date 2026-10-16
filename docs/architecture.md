@@ -123,7 +123,7 @@ confirmation box, which writes `officialWebsiteVerifiedAt` and an audit entry.
 **Rate limiting in Postgres, not Redis.** Serverless instances share no memory, and Redis would be
 another service to operate for this volume. Fixed windows, rows expire, cleaned opportunistically.
 
-**Categories are rows, not enums.** `TaxonomyTerm` covers events, societies, tips, businesses and
+**Categories are rows, not enums.** `TaxonomyTerm` covers events, tips, businesses and
 SRC portfolios, so adding a category is a dashboard task. A null `universityId` means
 platform-wide.
 

@@ -61,7 +61,6 @@ enum AdminAccountStatus {
 /// Categories are rows, not code, so admins can add one without a deploy.
 enum TaxonomyKind {
   EVENT
-  SOCIETY
   TIP
   BUSINESS
   SRC_PORTFOLIO
@@ -77,7 +76,6 @@ enum VerificationStatus {
 
 enum SubmissionKind {
   EVENT
-  SOCIETY
   TIP
   BUSINESS
   SRC_CORRECTION
@@ -157,84 +155,84 @@ enum EvidenceLevel {
 // ---------------------------------------------------------------------------
 
 model University {
-  id               String        @id @default(cuid())
+  id                        String        @id @default(cuid())
   /// URL segment, e.g. "unima" -> /universities/unima
-  slug             String        @unique
-  name             String
-  acronym          String
-  shortDescription String?
-  longDescription  String?
-  logoUrl          String?
-  coverImageUrl    String?
+  slug                      String        @unique
+  name                      String
+  acronym                   String
+  shortDescription          String?
+  longDescription           String?
+  logoUrl                   String?
+  coverImageUrl             String?
   /// Verified root website. Nullable on purpose: never invent one.
-  officialWebsite  String?
+  officialWebsite           String?
   /// Whether the official website above has been confirmed by an admin.
   officialWebsiteVerifiedAt DateTime?
-  city             String?
-  country          String        @default("Malawi")
-  profileStatus    ProfileStatus @default(COMING_SOON)
-  isPublished      Boolean       @default(false)
-  displayOrder     Int           @default(0)
+  city                      String?
+  country                   String        @default("Malawi")
+  profileStatus             ProfileStatus @default(COMING_SOON)
+  isPublished               Boolean       @default(false)
+  displayOrder              Int           @default(0)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  campuses         Campus[]
-  themes           UniversityTheme[]
-  officialLinks    UniversityOfficialLink[]
-  homepageSections UniversityHomepageSection[]
-  assignments      AdminAssignment[]
-  taxonomyTerms    TaxonomyTerm[]
-  events           Event[]
-  srcCouncils      SrcCouncil[]
-  srcPositions     SrcPosition[]
-  srcRepresentatives SrcRepresentative[]
-  societies        Society[]
-  tips             CampusTip[]
-  polls            Poll[]
-  businesses       CampusBusiness[]
-  businessApplications BusinessApplication[]
-  advertisingEnquiries AdvertisingEnquiry[]
+  campuses              Campus[]
+  themes                UniversityTheme[]
+  officialLinks         UniversityOfficialLink[]
+  homepageSections      UniversityHomepageSection[]
+  assignments           AdminAssignment[]
+  taxonomyTerms         TaxonomyTerm[]
+  events                Event[]
+  srcCouncils           SrcCouncil[]
+  srcPositions          SrcPosition[]
+  srcRepresentatives    SrcRepresentative[]
+  tips                  CampusTip[]
+  tourStops             CampusTourStop[]
+  polls                 Poll[]
+  businesses            CampusBusiness[]
+  businessApplications  BusinessApplication[]
+  advertisingEnquiries  AdvertisingEnquiry[]
   advertisingPlacements AdvertisingPlacement[]
-  submissions      Submission[]
-  contactEnquiries ContactEnquiry[]
+  submissions           Submission[]
+  contactEnquiries      ContactEnquiry[]
 
   @@index([isPublished, displayOrder])
 }
 
 model Campus {
-  id           String        @id @default(cuid())
-  universityId String
-  university   University    @relation(fields: [universityId], references: [id], onDelete: Cascade)
+  id            String        @id @default(cuid())
+  universityId  String
+  university    University    @relation(fields: [universityId], references: [id], onDelete: Cascade)
   /// Unique within its university, e.g. "chancellor-college".
-  slug         String
-  name         String
+  slug          String
+  name          String
   /// Optional constituent-college / faculty label where that applies.
-  kind         String?
-  description  String?
-  city         String?
+  kind          String?
+  description   String?
+  city          String?
   /// Coordinates are only ever set from a confirmed source.
-  latitude     Float?
-  longitude    Float?
-  isPrimary    Boolean       @default(false)
+  latitude      Float?
+  longitude     Float?
+  isPrimary     Boolean       @default(false)
   profileStatus ProfileStatus @default(COMING_SOON)
-  isPublished  Boolean       @default(false)
-  displayOrder Int           @default(0)
+  isPublished   Boolean       @default(false)
+  displayOrder  Int           @default(0)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  assignments      AdminAssignment[]
-  events           Event[]
-  srcCouncils      SrcCouncil[]
-  srcRepresentatives SrcRepresentative[]
-  societies        Society[]
-  tips             CampusTip[]
-  polls            Poll[]
-  businesses       CampusBusiness[]
-  businessApplications BusinessApplication[]
-  submissions      Submission[]
-  homepageSections UniversityHomepageSection[]
+  assignments           AdminAssignment[]
+  events                Event[]
+  srcCouncils           SrcCouncil[]
+  srcRepresentatives    SrcRepresentative[]
+  tips                  CampusTip[]
+  tourStops             CampusTourStop[]
+  polls                 Poll[]
+  businesses            CampusBusiness[]
+  businessApplications  BusinessApplication[]
+  submissions           Submission[]
+  homepageSections      UniversityHomepageSection[]
   advertisingPlacements AdvertisingPlacement[]
 
   @@unique([universityId, slug])
@@ -248,21 +246,21 @@ model UniversityTheme {
   university   University   @relation(fields: [universityId], references: [id], onDelete: Cascade)
   variant      ThemeVariant @default(PUBLISHED)
 
-  primaryColor        String @default("#1d4ed8")
-  primaryContrast     String @default("#ffffff")
-  secondaryColor      String @default("#334155")
-  secondaryContrast   String @default("#ffffff")
-  accentColor         String @default("#f59e0b")
-  accentContrast      String @default("#1f2937")
-  backgroundColor     String @default("#ffffff")
-  surfaceColor        String @default("#f8fafc")
-  surfaceMutedColor   String @default("#f1f5f9")
-  textPrimaryColor    String @default("#0f172a")
-  textSecondaryColor  String @default("#475569")
-  borderColor         String @default("#e2e8f0")
-  highlightColor      String @default("#dbeafe")
+  primaryColor         String  @default("#1d4ed8")
+  primaryContrast      String  @default("#ffffff")
+  secondaryColor       String  @default("#334155")
+  secondaryContrast    String  @default("#ffffff")
+  accentColor          String  @default("#f59e0b")
+  accentContrast       String  @default("#1f2937")
+  backgroundColor      String  @default("#ffffff")
+  surfaceColor         String  @default("#f8fafc")
+  surfaceMutedColor    String  @default("#f1f5f9")
+  textPrimaryColor     String  @default("#0f172a")
+  textSecondaryColor   String  @default("#475569")
+  borderColor          String  @default("#e2e8f0")
+  highlightColor       String  @default("#dbeafe")
   /// Tailwind-compatible radius token applied to buttons and cards.
-  radius              String @default("1rem")
+  radius               String  @default("1rem")
   decorativePatternUrl String?
 
   /// Notes for the next admin who edits this theme (e.g. brand-guide source).
@@ -316,7 +314,7 @@ model UniversityHomepageSection {
   @@unique([universityId, campusId, sectionKey])
 }
 
-/// Admin-editable categories for events, societies, tips, businesses and SRC
+/// Admin-editable categories for events, tips, businesses and SRC
 /// portfolios. A null universityId means the term is available platform-wide.
 model TaxonomyTerm {
   id           String       @id @default(cuid())
@@ -335,10 +333,9 @@ model TaxonomyTerm {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  events     Event[]
-  societies  Society[]
-  tips       CampusTip[]
-  businesses CampusBusiness[]
+  events       Event[]
+  tips         CampusTip[]
+  businesses   CampusBusiness[]
   srcPositions SrcPosition[]
 
   // Platform-wide terms have a NULL universityId; a partial unique index in the
@@ -352,32 +349,32 @@ model TaxonomyTerm {
 // ---------------------------------------------------------------------------
 
 model AdminUser {
-  id            String             @id @default(cuid())
-  email         String             @unique
-  name          String
+  id               String             @id @default(cuid())
+  email            String             @unique
+  name             String
   /// scrypt hash; null until an invited admin sets their password.
-  passwordHash  String?
-  status        AdminAccountStatus @default(INVITED)
-  lastLoginAt   DateTime?
+  passwordHash     String?
+  status           AdminAccountStatus @default(INVITED)
+  lastLoginAt      DateTime?
   /// Incremented to invalidate every existing session for this admin.
-  sessionEpoch  Int                @default(0)
-  failedLoginCount Int             @default(0)
-  lockedUntil   DateTime?
+  sessionEpoch     Int                @default(0)
+  failedLoginCount Int                @default(0)
+  lockedUntil      DateTime?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  assignments      AdminAssignment[] @relation("AssignmentSubject")
-  grantedAssignments AdminAssignment[] @relation("AssignmentGrantedBy")
-  sessions         AdminSession[]
-  invitesReceived  AdminInvite[]     @relation("InviteSubject")
-  invitesCreated   AdminInvite[]     @relation("InviteCreatedBy")
-  auditLogs        AuditLog[]
-  verifiedLinks    UniversityOfficialLink[] @relation("OfficialLinkVerifier")
-  reviewedSubmissions Submission[]   @relation("SubmissionReviewer")
-  moderationReports ModerationReport[] @relation("ModerationReviewer")
-  businessVerifications BusinessVerification[] @relation("BusinessVerifier")
-  legalVersions    LegalDocumentVersion[] @relation("LegalAuthor")
+  assignments           AdminAssignment[]        @relation("AssignmentSubject")
+  grantedAssignments    AdminAssignment[]        @relation("AssignmentGrantedBy")
+  sessions              AdminSession[]
+  invitesReceived       AdminInvite[]            @relation("InviteSubject")
+  invitesCreated        AdminInvite[]            @relation("InviteCreatedBy")
+  auditLogs             AuditLog[]
+  verifiedLinks         UniversityOfficialLink[] @relation("OfficialLinkVerifier")
+  reviewedSubmissions   Submission[]             @relation("SubmissionReviewer")
+  moderationReports     ModerationReport[]       @relation("ModerationReviewer")
+  businessVerifications BusinessVerification[]   @relation("BusinessVerifier")
+  legalVersions         LegalDocumentVersion[]   @relation("LegalAuthor")
 
   @@index([status])
 }
@@ -385,15 +382,15 @@ model AdminUser {
 /// Permission keys live in code (lib/rbac/permissions.ts); which keys a role
 /// grants lives here, so new roles need no code change.
 model AdminRole {
-  id          String   @id @default(cuid())
-  key         String   @unique
-  name        String
-  description String?
+  id            String      @id @default(cuid())
+  key           String      @unique
+  name          String
+  description   String?
   /// Scopes this role may be assigned at.
   allowedScopes ScopeType[]
-  permissions String[]
+  permissions   String[]
   /// Built-in roles cannot be deleted through the dashboard.
-  isSystem    Boolean  @default(false)
+  isSystem      Boolean     @default(false)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -402,21 +399,21 @@ model AdminRole {
 }
 
 model AdminAssignment {
-  id           String     @id @default(cuid())
+  id           String      @id @default(cuid())
   adminUserId  String
-  adminUser    AdminUser  @relation("AssignmentSubject", fields: [adminUserId], references: [id], onDelete: Cascade)
+  adminUser    AdminUser   @relation("AssignmentSubject", fields: [adminUserId], references: [id], onDelete: Cascade)
   roleId       String
-  role         AdminRole  @relation(fields: [roleId], references: [id], onDelete: Restrict)
+  role         AdminRole   @relation(fields: [roleId], references: [id], onDelete: Restrict)
   scopeType    ScopeType
   universityId String?
   university   University? @relation(fields: [universityId], references: [id], onDelete: Cascade)
   campusId     String?
-  campus       Campus?    @relation(fields: [campusId], references: [id], onDelete: Cascade)
+  campus       Campus?     @relation(fields: [campusId], references: [id], onDelete: Cascade)
 
-  grantedById  String?
-  grantedBy    AdminUser? @relation("AssignmentGrantedBy", fields: [grantedById], references: [id], onDelete: SetNull)
-  expiresAt    DateTime?
-  revokedAt    DateTime?
+  grantedById String?
+  grantedBy   AdminUser? @relation("AssignmentGrantedBy", fields: [grantedById], references: [id], onDelete: SetNull)
+  expiresAt   DateTime?
+  revokedAt   DateTime?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -430,22 +427,22 @@ model AdminAssignment {
 }
 
 model AdminSession {
-  id           String    @id @default(cuid())
-  adminUserId  String
-  adminUser    AdminUser @relation(fields: [adminUserId], references: [id], onDelete: Cascade)
+  id          String    @id @default(cuid())
+  adminUserId String
+  adminUser   AdminUser @relation(fields: [adminUserId], references: [id], onDelete: Cascade)
   /// SHA-256 of the session token. The raw token only ever exists in the
   /// httpOnly cookie, never in the database.
-  tokenHash    String    @unique
+  tokenHash   String    @unique
   /// Snapshot of AdminUser.sessionEpoch at sign-in.
-  epoch        Int       @default(0)
+  epoch       Int       @default(0)
   /// Double-submit CSRF secret bound to this session.
-  csrfSecret   String
-  userAgent    String?
+  csrfSecret  String
+  userAgent   String?
   /// Truncated/hashed IP; see privacy policy. Never a full address.
-  ipHint       String?
-  expiresAt    DateTime
-  revokedAt    DateTime?
-  lastSeenAt   DateTime  @default(now())
+  ipHint      String?
+  expiresAt   DateTime
+  revokedAt   DateTime?
+  lastSeenAt  DateTime  @default(now())
 
   createdAt DateTime @default(now())
 
@@ -454,14 +451,14 @@ model AdminSession {
 }
 
 model AdminInvite {
-  id           String    @id @default(cuid())
-  adminUserId  String
-  adminUser    AdminUser @relation("InviteSubject", fields: [adminUserId], references: [id], onDelete: Cascade)
-  tokenHash    String    @unique
-  expiresAt    DateTime
-  acceptedAt   DateTime?
-  createdById  String?
-  createdBy    AdminUser? @relation("InviteCreatedBy", fields: [createdById], references: [id], onDelete: SetNull)
+  id          String     @id @default(cuid())
+  adminUserId String
+  adminUser   AdminUser  @relation("InviteSubject", fields: [adminUserId], references: [id], onDelete: Cascade)
+  tokenHash   String     @unique
+  expiresAt   DateTime
+  acceptedAt  DateTime?
+  createdById String?
+  createdBy   AdminUser? @relation("InviteCreatedBy", fields: [createdById], references: [id], onDelete: SetNull)
 
   createdAt DateTime @default(now())
 
@@ -481,27 +478,27 @@ model Event {
   categoryId   String?
   category     TaxonomyTerm? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
 
-  slug         String
-  title        String
-  description  String
-  startsAt     DateTime
-  endsAt       DateTime?
-  venue        String?
-  posterUrl    String?
-  organizer    String?
+  slug            String
+  title           String
+  description     String
+  startsAt        DateTime
+  endsAt          DateTime?
+  venue           String?
+  posterUrl       String?
+  organizer       String?
   /// Public contact or official social link for the organiser only.
-  organizerLink String?
+  organizerLink   String?
   registrationUrl String?
   /// Human-readable recurrence note; no assumption that events repeat.
-  recurrenceNote String?
+  recurrenceNote  String?
 
-  status       ContentStatus @default(DRAFT)
-  isFeatured   Boolean       @default(false)
+  status        ContentStatus @default(DRAFT)
+  isFeatured    Boolean       @default(false)
   evidenceLevel EvidenceLevel @default(UNVERIFIED)
-  sourceUrl    String?
-  sourceNote   String?
+  sourceUrl     String?
+  sourceNote    String?
   lastCheckedAt DateTime?
-  publishedAt  DateTime?
+  publishedAt   DateTime?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -534,16 +531,16 @@ model SrcCouncil {
 }
 
 model SrcPosition {
-  id           String        @id @default(cuid())
-  universityId String
-  university   University    @relation(fields: [universityId], references: [id], onDelete: Cascade)
-  title        String
-  description  String?
+  id               String        @id @default(cuid())
+  universityId     String
+  university       University    @relation(fields: [universityId], references: [id], onDelete: Cascade)
+  title            String
+  description      String?
   responsibilities String?
-  portfolioId  String?
-  portfolio    TaxonomyTerm? @relation(fields: [portfolioId], references: [id], onDelete: SetNull)
-  displayOrder Int           @default(0)
-  isActive     Boolean       @default(true)
+  portfolioId      String?
+  portfolio        TaxonomyTerm? @relation(fields: [portfolioId], references: [id], onDelete: SetNull)
+  displayOrder     Int           @default(0)
+  isActive         Boolean       @default(true)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -554,77 +551,41 @@ model SrcPosition {
 }
 
 model SrcRepresentative {
-  id           String        @id @default(cuid())
+  id           String       @id @default(cuid())
   universityId String
-  university   University    @relation(fields: [universityId], references: [id], onDelete: Cascade)
+  university   University   @relation(fields: [universityId], references: [id], onDelete: Cascade)
   campusId     String?
-  campus       Campus?       @relation(fields: [campusId], references: [id], onDelete: SetNull)
+  campus       Campus?      @relation(fields: [campusId], references: [id], onDelete: SetNull)
   councilId    String?
-  council      SrcCouncil?   @relation(fields: [councilId], references: [id], onDelete: SetNull)
+  council      SrcCouncil?  @relation(fields: [councilId], references: [id], onDelete: SetNull)
   positionId   String?
-  position     SrcPosition?  @relation(fields: [positionId], references: [id], onDelete: SetNull)
+  position     SrcPosition? @relation(fields: [positionId], references: [id], onDelete: SetNull)
 
-  fullName     String
+  fullName                     String
   /// Only stored where publication was authorised.
-  photoUrl     String?
-  biography    String?
-  responsibilities String?
+  photoUrl                     String?
+  biography                    String?
+  responsibilities             String?
   /// Office channel, not a personal number, unless explicitly authorised.
-  officialEmail String?
-  officialLink String?
+  officialEmail                String?
+  officialLink                 String?
   contactPublicationAuthorised Boolean @default(false)
 
-  termStart    DateTime?
-  termEnd      DateTime?
-  isCurrent    Boolean       @default(true)
+  termStart DateTime?
+  termEnd   DateTime?
+  isCurrent Boolean   @default(true)
 
-  status       ContentStatus @default(DRAFT)
+  status        ContentStatus @default(DRAFT)
   evidenceLevel EvidenceLevel @default(UNVERIFIED)
-  sourceUrl    String?
-  sourceNote   String?
+  sourceUrl     String?
+  sourceNote    String?
   lastCheckedAt DateTime?
-  publishedAt  DateTime?
+  publishedAt   DateTime?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   @@index([universityId, status, isCurrent])
-}
-
-model Society {
-  id           String        @id @default(cuid())
-  universityId String
-  university   University    @relation(fields: [universityId], references: [id], onDelete: Cascade)
-  campusId     String?
-  campus       Campus?       @relation(fields: [campusId], references: [id], onDelete: SetNull)
-  categoryId   String?
-  category     TaxonomyTerm? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
-
-  slug         String
-  name         String
-  description  String
-  logoUrl      String?
-  coverImageUrl String?
-  activities   String?
-  joiningInstructions String?
-  meetingInfo  String?
-  publicEmail  String?
-  publicPhone  String?
-  socialLinks  Json?
-
-  status       ContentStatus @default(DRAFT)
-  isFeatured   Boolean       @default(false)
-  evidenceLevel EvidenceLevel @default(UNVERIFIED)
-  sourceUrl    String?
-  sourceNote   String?
-  lastCheckedAt DateTime?
-  publishedAt  DateTime?
-
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
-  @@unique([universityId, slug])
-  @@index([universityId, status])
 }
 
 model CampusTip {
@@ -636,22 +597,22 @@ model CampusTip {
   categoryId   String?
   category     TaxonomyTerm? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
 
-  slug         String
-  title        String
-  body         String
-  imageUrl     String?
+  slug     String
+  title    String
+  body     String
+  imageUrl String?
 
-  status       ContentStatus @default(DRAFT)
-  isFeatured   Boolean       @default(false)
+  status        ContentStatus @default(DRAFT)
+  isFeatured    Boolean       @default(false)
   /// Drives the public label: "Student tip" vs "Recently checked" vs
   /// "Verified information".
   evidenceLevel EvidenceLevel @default(STUDENT_REPORTED)
-  sourceUrl    String?
-  sourceNote   String?
+  sourceUrl     String?
+  sourceNote    String?
   lastCheckedAt DateTime?
   /// Prompts a re-check so stale prices are not shown as current.
-  reviewDueAt  DateTime?
-  publishedAt  DateTime?
+  reviewDueAt   DateTime?
+  publishedAt   DateTime?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -665,26 +626,26 @@ model CampusTip {
 // ---------------------------------------------------------------------------
 
 model Poll {
-  id           String     @id @default(cuid())
+  id           String      @id @default(cuid())
   universityId String?
   university   University? @relation(fields: [universityId], references: [id], onDelete: Cascade)
   campusId     String?
-  campus       Campus?    @relation(fields: [campusId], references: [id], onDelete: SetNull)
+  campus       Campus?     @relation(fields: [campusId], references: [id], onDelete: SetNull)
 
-  slug         String     @unique
-  question     String
-  description  String?
-  imageUrl     String?
-  allowMultiple Boolean   @default(false)
-  maxSelections Int?
-  status       PollStatus @default(DRAFT)
+  slug              String                @unique
+  question          String
+  description       String?
+  imageUrl          String?
+  allowMultiple     Boolean               @default(false)
+  maxSelections     Int?
+  status            PollStatus            @default(DRAFT)
   resultsVisibility PollResultsVisibility @default(AFTER_VOTE)
-  isFeatured   Boolean    @default(false)
-  startsAt     DateTime?
-  endsAt       DateTime?
-  closedAt     DateTime?
+  isFeatured        Boolean               @default(false)
+  startsAt          DateTime?
+  endsAt            DateTime?
+  closedAt          DateTime?
   /// Set once the first vote lands; blocks integrity-breaking edits.
-  firstVoteAt  DateTime?
+  firstVoteAt       DateTime?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -697,15 +658,15 @@ model Poll {
 }
 
 model PollOption {
-  id           String @id @default(cuid())
+  id           String  @id @default(cuid())
   pollId       String
-  poll         Poll   @relation(fields: [pollId], references: [id], onDelete: Cascade)
+  poll         Poll    @relation(fields: [pollId], references: [id], onDelete: Cascade)
   label        String
   description  String?
   imageUrl     String?
-  displayOrder Int    @default(0)
+  displayOrder Int     @default(0)
   /// Denormalised tally, kept in step with PollVote inside a transaction.
-  voteCount    Int    @default(0)
+  voteCount    Int     @default(0)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -750,6 +711,11 @@ model CampusBusiness {
   locationNote String?
   latitude     Float?
   longitude    Float?
+  /// Optional Google Maps embed. Validated against an allow-list of Google
+  /// hosts before it is ever rendered; raw iframe HTML is never accepted.
+  mapEmbedUrl  String?
+  /// Whether this listing may appear on campus maps and the virtual tour.
+  showOnMap    Boolean @default(true)
   publicPhone  String?
   publicEmail  String?
   socialLinks  Json?
@@ -758,18 +724,18 @@ model CampusBusiness {
   services     String?
   photos       Json?
 
-  status             ContentStatus      @default(DRAFT)
-  verificationStatus VerificationStatus @default(PENDING)
-  lastVerifiedAt     DateTime?
+  status                ContentStatus      @default(DRAFT)
+  verificationStatus    VerificationStatus @default(PENDING)
+  lastVerifiedAt        DateTime?
   verificationExpiresAt DateTime?
-  isSponsored        Boolean            @default(false)
-  publishedAt        DateTime?
+  isSponsored           Boolean            @default(false)
+  publishedAt           DateTime?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  application   BusinessApplication? @relation(fields: [applicationId], references: [id], onDelete: SetNull)
-  applicationId String?              @unique
+  application   BusinessApplication?   @relation(fields: [applicationId], references: [id], onDelete: SetNull)
+  applicationId String?                @unique
   verifications BusinessVerification[]
 
   @@unique([universityId, slug])
@@ -797,36 +763,36 @@ model BusinessApplication {
   evidenceNote String?
   evidenceUrls Json?
 
-  status       VerificationStatus @default(PENDING)
-  reviewNote   String?
-  reviewedAt   DateTime?
+  status     VerificationStatus @default(PENDING)
+  reviewNote String?
+  reviewedAt DateTime?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  business     CampusBusiness?
+  business      CampusBusiness?
   verifications BusinessVerification[]
 
   @@index([universityId, status])
 }
 
 model BusinessVerification {
-  id            String     @id @default(cuid())
+  id            String               @id @default(cuid())
   businessId    String?
-  business      CampusBusiness? @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  business      CampusBusiness?      @relation(fields: [businessId], references: [id], onDelete: Cascade)
   applicationId String?
   application   BusinessApplication? @relation(fields: [applicationId], references: [id], onDelete: SetNull)
 
-  fromStatus    VerificationStatus?
-  toStatus      VerificationStatus
+  fromStatus      VerificationStatus?
+  toStatus        VerificationStatus
   /// What was actually checked — the badge means only this.
   checksPerformed String?
-  note          String?
-  evidenceUrls  Json?
-  reviewerId    String?
-  reviewer      AdminUser? @relation("BusinessVerifier", fields: [reviewerId], references: [id], onDelete: SetNull)
-  decidedAt     DateTime   @default(now())
-  expiresAt     DateTime?
+  note            String?
+  evidenceUrls    Json?
+  reviewerId      String?
+  reviewer        AdminUser?          @relation("BusinessVerifier", fields: [reviewerId], references: [id], onDelete: SetNull)
+  decidedAt       DateTime            @default(now())
+  expiresAt       DateTime?
 
   @@index([businessId, decidedAt])
 }
@@ -836,16 +802,16 @@ model BusinessVerification {
 // ---------------------------------------------------------------------------
 
 model AdvertisingPlacement {
-  id           String     @id @default(cuid())
-  key          String     @unique
+  id           String      @id @default(cuid())
+  key          String      @unique
   name         String
   description  String?
   universityId String?
   university   University? @relation(fields: [universityId], references: [id], onDelete: Cascade)
   campusId     String?
-  campus       Campus?    @relation(fields: [campusId], references: [id], onDelete: SetNull)
-  isAvailable  Boolean    @default(false)
-  displayOrder Int        @default(0)
+  campus       Campus?     @relation(fields: [campusId], references: [id], onDelete: SetNull)
+  isAvailable  Boolean     @default(false)
+  displayOrder Int         @default(0)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -854,25 +820,25 @@ model AdvertisingPlacement {
 }
 
 model AdvertisingEnquiry {
-  id            String     @id @default(cuid())
-  organisation  String
-  contactName   String
-  contactEmail  String
-  contactPhone  String?
-  objective     String
-  universityId  String?
-  university    University? @relation(fields: [universityId], references: [id], onDelete: SetNull)
-  campusHint    String?
-  placementId   String?
-  placement     AdvertisingPlacement? @relation(fields: [placementId], references: [id], onDelete: SetNull)
+  id             String                @id @default(cuid())
+  organisation   String
+  contactName    String
+  contactEmail   String
+  contactPhone   String?
+  objective      String
+  universityId   String?
+  university     University?           @relation(fields: [universityId], references: [id], onDelete: SetNull)
+  campusHint     String?
+  placementId    String?
+  placement      AdvertisingPlacement? @relation(fields: [placementId], references: [id], onDelete: SetNull)
   preferredStart DateTime?
-  preferredEnd  DateTime?
-  budgetRange   String?
-  notes         String?
+  preferredEnd   DateTime?
+  budgetRange    String?
+  notes          String?
 
-  status        EnquiryStatus @default(NEW)
-  internalNote  String?
-  handledAt     DateTime?
+  status       EnquiryStatus @default(NEW)
+  internalNote String?
+  handledAt    DateTime?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -902,11 +868,11 @@ model Submission {
   targetType   String?
   targetId     String?
 
-  status       SubmissionStatus @default(RECEIVED)
-  reviewNote   String?
-  reviewedAt   DateTime?
-  reviewerId   String?
-  reviewer     AdminUser?     @relation("SubmissionReviewer", fields: [reviewerId], references: [id], onDelete: SetNull)
+  status     SubmissionStatus @default(RECEIVED)
+  reviewNote String?
+  reviewedAt DateTime?
+  reviewerId String?
+  reviewer   AdminUser?       @relation("SubmissionReviewer", fields: [reviewerId], references: [id], onDelete: SetNull)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -916,19 +882,19 @@ model Submission {
 }
 
 model ModerationReport {
-  id          String   @id @default(cuid())
+  id            String  @id @default(cuid())
   /// Module name, e.g. "tip", "business", "src_representative".
-  targetType  String
-  targetId    String
-  reason      String
-  details     String?
+  targetType    String
+  targetId      String
+  reason        String
+  details       String?
   reporterEmail String?
 
-  status      ModerationStatus @default(OPEN)
-  resolution  String?
-  reviewerId  String?
-  reviewer    AdminUser? @relation("ModerationReviewer", fields: [reviewerId], references: [id], onDelete: SetNull)
-  resolvedAt  DateTime?
+  status     ModerationStatus @default(OPEN)
+  resolution String?
+  reviewerId String?
+  reviewer   AdminUser?       @relation("ModerationReviewer", fields: [reviewerId], references: [id], onDelete: SetNull)
+  resolvedAt DateTime?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -947,7 +913,7 @@ model ContactEnquiry {
   universityId String?
   university   University?     @relation(fields: [universityId], references: [id], onDelete: SetNull)
 
-  status       EnquiryStatus   @default(NEW)
+  status       EnquiryStatus @default(NEW)
   internalNote String?
   handledAt    DateTime?
 
@@ -962,10 +928,10 @@ model ContactEnquiry {
 // ---------------------------------------------------------------------------
 
 model LegalDocument {
-  id          String            @id @default(cuid())
-  kind        LegalDocumentKind @unique
-  slug        String            @unique
-  title       String
+  id    String            @id @default(cuid())
+  kind  LegalDocumentKind @unique
+  slug  String            @unique
+  title String
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -976,19 +942,19 @@ model LegalDocument {
 }
 
 model LegalDocumentVersion {
-  id         String        @id @default(cuid())
-  documentId String
-  document   LegalDocument @relation("DocumentVersions", fields: [documentId], references: [id], onDelete: Cascade)
-  version    Int
-  title      String
+  id               String        @id @default(cuid())
+  documentId       String
+  document         LegalDocument @relation("DocumentVersions", fields: [documentId], references: [id], onDelete: Cascade)
+  version          Int
+  title            String
   /// Markdown, rendered through a restricted renderer (no raw HTML).
-  body       String
+  body             String
   summaryOfChanges String?
-  status     ContentStatus @default(DRAFT)
-  effectiveAt DateTime?
-  publishedAt DateTime?
+  status           ContentStatus @default(DRAFT)
+  effectiveAt      DateTime?
+  publishedAt      DateTime?
   /// True when the change is material enough to need renewed notice.
-  isMaterialChange Boolean  @default(false)
+  isMaterialChange Boolean       @default(false)
 
   authorId String?
   author   AdminUser? @relation("LegalAuthor", fields: [authorId], references: [id], onDelete: SetNull)
@@ -1010,19 +976,19 @@ model PlatformSetting {
 }
 
 model AuditLog {
-  id          String   @id @default(cuid())
-  actorId     String?
-  actor       AdminUser? @relation(fields: [actorId], references: [id], onDelete: SetNull)
+  id           String     @id @default(cuid())
+  actorId      String?
+  actor        AdminUser? @relation(fields: [actorId], references: [id], onDelete: SetNull)
   /// Kept so the log survives account deletion.
-  actorEmail  String?
-  action      String
-  targetType  String?
-  targetId    String?
+  actorEmail   String?
+  action       String
+  targetType   String?
+  targetId     String?
   universityId String?
-  campusId    String?
+  campusId     String?
   /// Before/after summary. Never contains passwords, tokens or secrets.
-  metadata    Json?
-  ipHint      String?
+  metadata     Json?
+  ipHint       String?
 
   createdAt DateTime @default(now())
 
@@ -1042,3 +1008,74 @@ model RateLimitCounter {
   @@unique([bucket, windowKey])
   @@index([expiresAt])
 }
+
+// ---------------------------------------------------------------------------
+// Virtual campus tour
+// ---------------------------------------------------------------------------
+
+/// An ordered stop on a university's virtual tour: a place on campus with a
+/// description and a map. Stops belong to a university, optionally narrowed to
+/// one campus.
+model CampusTourStop {
+  id           String     @id @default(cuid())
+  universityId String
+  university   University @relation(fields: [universityId], references: [id], onDelete: Cascade)
+  campusId     String?
+  campus       Campus?    @relation(fields: [campusId], references: [id], onDelete: SetNull)
+
+  slug          String
+  title         String
+  description   String
+  /// What a student would actually use this place for.
+  practicalNote String?
+  photoUrl      String?
+
+  /// Either a Google Maps embed URL pasted by an administrator, or coordinates
+  /// we build an embed from. Both are validated server-side before rendering,
+  /// and raw iframe HTML is never stored or accepted. See lib/maps.ts.
+  mapEmbedUrl String?
+  latitude    Float?
+  longitude   Float?
+  /// Free-text place query used when there are no coordinates.
+  placeQuery  String?
+
+  displayOrder  Int           @default(0)
+  status        ContentStatus @default(DRAFT)
+  evidenceLevel EvidenceLevel @default(UNVERIFIED)
+  sourceUrl     String?
+  sourceNote    String?
+  lastCheckedAt DateTime?
+  publishedAt   DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([universityId, slug])
+  @@index([universityId, status, displayOrder])
+}
+
+// ---------------------------------------------------------------------------
+// Reserved: business reviews
+// ---------------------------------------------------------------------------
+//
+// Reviews are a planned upgrade to the business directory and are deliberately
+// NOT implemented yet — no table is created for them, because dead schema rots.
+// The directory is built so they can be added without reshaping anything:
+//
+//   * CampusBusiness has a stable id and a (universityId, slug) public URL, so
+//     a BusinessReview row can reference `businessId` directly.
+//   * Verification is modelled separately from quality (BusinessVerification
+//     records what was *checked*). A review is a student's opinion and must
+//     never be conflated with the verification badge, so they stay distinct
+//     tables with distinct meanings.
+//   * The public business page renders its sections from a list, so a reviews
+//     section drops in without restructuring the page.
+//   * EvidenceLevel already distinguishes student-reported from staff-checked
+//     content, which is the labelling a review section needs.
+//
+// When that milestone lands, the expected shape is:
+//   BusinessReview { id, businessId, rating Int, body String?, ballotHash
+//                    (anti-abuse, same approach as PollVote), status
+//                    ContentStatus, createdAt }
+// plus denormalised reviewCount / ratingSum on CampusBusiness maintained in the
+// same transaction as the review write, mirroring PollOption.voteCount.

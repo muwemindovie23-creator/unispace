@@ -13,6 +13,8 @@ export const dynamic = 'force-dynamic'
 const NAV = [
   { href: '/admin', label: 'Overview', permission: null },
   { href: '/admin/universities', label: 'Universities', permission: PERMISSIONS.UNIVERSITY_UPDATE },
+  { href: '/admin/businesses/applications', label: 'Verification queue', permission: PERMISSIONS.BUSINESS_APPLICATION_READ },
+  { href: '/admin/advertising', label: 'Advertising', permission: PERMISSIONS.ADVERTISING_ENQUIRY_READ },
   { href: '/admin/administrators', label: 'Administrators', permission: PERMISSIONS.ADMIN_READ },
   { href: '/admin/legal', label: 'Legal documents', permission: PERMISSIONS.LEGAL_READ },
   { href: '/admin/settings', label: 'Settings', permission: PERMISSIONS.PLATFORM_SETTINGS_MANAGE },

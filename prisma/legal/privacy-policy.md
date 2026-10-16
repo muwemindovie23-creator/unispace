@@ -26,7 +26,7 @@ This is an anti-abuse measure, not a guarantee. Anonymous public voting cannot p
 
 ### When you send us something
 
-Some parts of UniSpace let you send information to us: suggesting a campus tip, event, society or correction; applying to list a campus business; submitting an advertising enquiry; reporting content; or contacting us. Each of those forms collects only what is needed for that purpose, and tells you so next to the form.
+Some parts of UniSpace let you send information to us: suggesting a campus tip, event, tour stop or correction; applying to list a campus business; submitting an advertising enquiry; reporting content; or contacting us. Each of those forms collects only what is needed for that purpose, and tells you so next to the form.
 
 Where a form asks for contact details, it explains why. We use them to follow up on what you sent, and for nothing else.
 
@@ -55,6 +55,14 @@ UniSpace uses the following, and nothing else:
 - **A poll ballot identifier.** Set in your browser when you vote, scoped to that poll, and used only to make repeat voting harder.
 
 We do not set advertising cookies, and we do not use third-party analytics cookies.
+
+## Maps on our pages
+
+Some pages — the virtual campus tour, and business listings with a confirmed location — show a map supplied by Google Maps.
+
+That map is loaded by your browser directly from Google. When it loads, Google receives your IP address and other ordinary request information, and may set its own cookies in your browser, under Google's privacy policy rather than ours. We do not send Google your name, your email address or anything you have typed into UniSpace, and we do not receive anything back about you.
+
+Pages without a map make no request to Google. Maps are loaded lazily, so a map further down a page is only fetched if you scroll to it.
 
 ## Sharing information
 

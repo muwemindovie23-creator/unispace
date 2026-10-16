@@ -67,27 +67,67 @@ inherited the university layout, and a campus was then deleted. Every step was a
   dozen sequential round trips, which exceeded Prisma's 5s transaction timeout against a pooled
   remote database and made saves fail silently. Now one batched transaction.
 
-## Milestone 3 — Events and student life
+## Milestone 3 — Businesses, advertising and the campus tour ✅ (partial)
 
-Events hub with filtering by university, campus, category and date. SRC directory with council
-terms, positions and verification. Societies directory. "Did You Know?" tips with evidence levels
-and review dates. Public submission and moderation workflows.
+Rescoped on request: **societies were dropped from the product** and replaced by a virtual campus
+tour, and the business directory and advertising were pulled forward from Milestones 5 and 6
+because they are the MVP priority.
+
+**Built**
+
+- **Campus business directory** — public listing with category filtering and search, a detail
+  page with contact details, opening information and a map, and admin CRUD. Sponsored listings
+  sort first and are always labelled.
+- **Verification workflow** — a public application form, a scoped review queue, and a decision
+  that records *what was actually checked*. Approving creates a **draft** listing, because
+  confirming a business exists is not the same as deciding its copy is ready to publish. Badges
+  carry an expiry so they must be renewed.
+- **Public reporting** — anyone can report a listing as closed, wrong or misleading. Reports go
+  to a moderation queue; nothing is removed automatically.
+- **Advertising** — a public enquiry form, an admin queue with statuses, and placements that are
+  unavailable until a Super Admin switches them on. Paying never affects verification or polls.
+- **Virtual campus tour** — ordered, mapped stops with evidence labelling, admin CRUD, and a
+  per-campus view. A stop cannot be published without a map, so visitors never see an empty panel.
+- **Safe map embeds** — `lib/maps.ts` accepts only Google Maps embed URLs, extracts the `src`
+  from a pasted `<iframe>`, and refuses everything else. It is the only iframe in UniSpace.
+
+**Fixed during verification**
+
+- Optional form fields rejected *missing* keys, not just empty ones. A university with no
+  campuses did not render the campus `<select>`, so the whole public application form failed with
+  "expected string, received undefined". All form parsing now goes through `lib/form-fields.ts`.
+  (In Zod 4 the key must be `.optional()`; a `z.union([z.string(), z.undefined()])` still reports
+  it as required.)
+- `looksLikeHtml` rejected a bare `<`, so a business writing "Prices < MK1000" was told to remove
+  HTML tags. It now requires a complete tag.
+
+**Still open from the original Milestone 3**
+
+Events hub, SRC directory and "Did You Know?" tips, plus the general submissions queue. The
+business reporting path exercises the moderation model, but the other modules still need theirs.
+
+**Not built, by request:** business reviews. The directory is shaped for them — see the reserved
+section at the end of `prisma/schema.prisma` for the intended model and why verification and
+reviews stay separate.
 
 ## Milestone 4 — Polls
 
 Admin-created polls, public voting without an account, configurable result visibility, and
 proportionate anti-abuse protection. Update the Privacy Policy's poll section to match what ships.
 
-## Milestone 5 — Campus businesses
+## Milestone 5 — Events, SRC and tips
 
-Directory, application form, the `PENDING → VERIFIED → NEEDS_REVIEW → REJECTED → EXPIRED`
-verification workflow with evidence and reviewer recorded, renewals, reporting, and the "Become a
-Verified Campus Business" landing page with an explicit statement of what the badge means.
+The parts of the original Milestone 3 not yet built: the events hub with filtering by university,
+campus, category and date; the SRC directory with council terms, positions and verification; and
+"Did You Know?" tips with evidence levels and review dates. Plus the general public submissions
+queue and its moderation workflow.
 
-## Milestone 6 — Advertising
+## Milestone 6 — Business reviews and advertising delivery
 
-Advertise With Us page, enquiry capture and statuses, configurable placements, clearly labelled
-sponsored content. **No payment processing.**
+Student reviews of campus businesses — see the reserved design note at the end of
+`prisma/schema.prisma` for the intended model, and why a review and a verification badge must
+stay separate things. Plus sponsored placement delivery and reporting.
+**Still no payment processing.**
 
 ## Milestone 7 — Legal, moderation and administration
 

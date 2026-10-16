@@ -8,7 +8,7 @@ UniSpace covers the practical, cultural and everyday side of campus life. It is 
 
 ## Accuracy, and the limits of what we publish
 
-Events are rescheduled, prices change, societies change their contacts, representatives leave office, and businesses close. Information on UniSpace may be incomplete or out of date.
+Events are rescheduled, prices change, opening hours shift, representatives leave office, and businesses close. Information on UniSpace may be incomplete or out of date.
 
 Some content is submitted by students, organisers or business owners. Where we review or verify something, that review covers only the specific checks we describe — nothing more.
 

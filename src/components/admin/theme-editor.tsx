@@ -188,7 +188,7 @@ export function ThemeEditor({
               What’s on this week
             </h3>
             <p className="mt-1.5 text-sm text-content-muted">
-              Open airs, society events and sports fixtures across campus.
+              Open airs, campus events and sports fixtures across campus.
             </p>
 
             <div className="mt-4 rounded-theme border border-hairline bg-surface p-4">

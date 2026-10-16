@@ -310,7 +310,7 @@ export async function deleteCampusAction(
         select: {
           assignments: true,
           events: true,
-          societies: true,
+          tourStops: true,
           tips: true,
           polls: true,
           businesses: true,

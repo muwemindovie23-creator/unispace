@@ -39,7 +39,7 @@ export async function generateMetadata({
     title: `${campus.name} — ${campus.university.acronym} campus life`,
     description:
       campus.description ??
-      `Events, societies, student representatives and campus tips for ${campus.name}.`,
+      `Campus businesses, events, student representatives and campus tips for ${campus.name}.`,
     alternates: { canonical: `/universities/${slug}/campus/${campusSlug}` },
   }
 }

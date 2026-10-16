@@ -37,7 +37,7 @@ export default async function CampusesPage({
           isPrimary: true,
           isPublished: true,
           profileStatus: true,
-          _count: { select: { events: true, societies: true, tips: true, businesses: true } },
+          _count: { select: { events: true, tourStops: true, tips: true, businesses: true } },
         },
       },
     },
@@ -82,7 +82,7 @@ export default async function CampusesPage({
           {visibleCampuses.map((campus) => {
             const contentCount =
               campus._count.events +
-              campus._count.societies +
+              campus._count.tourStops +
               campus._count.tips +
               campus._count.businesses
 

@@ -41,7 +41,7 @@ export async function generateMetadata({
     title: `${university.name} campus life`,
     description:
       university.shortDescription ??
-      `Events, societies, student representatives and campus tips for ${university.name} on UniSpace.`,
+      `Campus businesses, events, student representatives and campus tips for ${university.name} on UniSpace.`,
     alternates: { canonical: `/universities/${university.slug}` },
     openGraph: {
       title: `${university.name} on UniSpace`,

@@ -50,7 +50,7 @@ export const INITIAL_UNIVERSITIES: SeedUniversity[] = [
     name: 'University of Malawi',
     acronym: 'UNIMA',
     shortDescription:
-      'Events, societies, student representatives and campus tips for UNIMA students, in one place.',
+      'Campus businesses, events, student representatives and campus tips for UNIMA students, in one place.',
     officialWebsite: 'https://www.unima.ac.mw',
     officialWebsiteNote:
       'Checked automatically on 2026-10-15: the page identifies itself as the University of Malawi and links to unima.ac.mw services. Awaiting administrator confirmation.',
@@ -79,7 +79,7 @@ export const INITIAL_UNIVERSITIES: SeedUniversity[] = [
     name: 'Malawi University of Science and Technology',
     acronym: 'MUST',
     shortDescription:
-      'What’s happening on campus at MUST — events, societies, your SRC and the practical things students learn late.',
+      'What’s happening on campus at MUST — businesses, events, your SRC and the practical things students learn late.',
     officialWebsite: 'https://www.must.ac.mw',
     officialWebsiteNote:
       'Checked automatically on 2026-10-15: the page identifies itself as the Malawi University of Science and Technology and links to must.ac.mw services. Awaiting administrator confirmation.',
@@ -137,7 +137,7 @@ export const INITIAL_UNIVERSITIES: SeedUniversity[] = [
     name: 'Lilongwe University of Agriculture and Natural Resources',
     acronym: 'LUANAR',
     shortDescription:
-      'Find events, societies, student representatives and campus tips for LUANAR students.',
+      'Find campus businesses, events, student representatives and campus tips for LUANAR students.',
     officialWebsite: null,
     officialWebsiteNote:
       'Not recorded. An automated check on 2026-10-15 could not complete because the site presented an incomplete TLS certificate chain. An administrator must confirm the correct official URL in the dashboard before it is published.',
@@ -166,7 +166,7 @@ export const INITIAL_UNIVERSITIES: SeedUniversity[] = [
     name: 'Mzuzu University',
     acronym: 'MZUNI',
     shortDescription:
-      'The student side of MZUNI: open airs, societies, your SRC and campus discoveries worth knowing.',
+      'The student side of MZUNI: open airs, campus businesses, your SRC and discoveries worth knowing.',
     officialWebsite: 'https://www.mzuni.ac.mw',
     officialWebsiteNote:
       'Checked automatically on 2026-10-15: the page identifies itself as Mzuzu University and links to mzuni.ac.mw services. Awaiting administrator confirmation.',
@@ -195,7 +195,7 @@ export const INITIAL_UNIVERSITIES: SeedUniversity[] = [
     name: 'Malawi University of Business and Applied Sciences',
     acronym: 'MUBAS',
     shortDescription:
-      'Events, societies, student representatives and campus know-how for MUBAS students.',
+      'Campus businesses, events, student representatives and know-how for MUBAS students.',
     officialWebsite: 'https://www.mubas.ac.mw',
     officialWebsiteNote:
       'Checked automatically on 2026-10-15: the page identifies itself as the Malawi University of Business and Applied Sciences and links to mubas.ac.mw services. Awaiting administrator confirmation.',
@@ -226,7 +226,7 @@ export const INITIAL_UNIVERSITIES: SeedUniversity[] = [
  * rename or retire one from the dashboard without a code change.
  */
 export const INITIAL_TAXONOMY: {
-  kind: 'EVENT' | 'SOCIETY' | 'TIP' | 'BUSINESS' | 'SRC_PORTFOLIO'
+  kind: 'EVENT' | 'TIP' | 'BUSINESS' | 'SRC_PORTFOLIO'
   terms: { slug: string; label: string }[]
 }[] = [
   {
@@ -234,7 +234,7 @@ export const INITIAL_TAXONOMY: {
     terms: [
       { slug: 'open-air', label: 'Open air' },
       { slug: 'freshers', label: 'Freshers’ event' },
-      { slug: 'society-event', label: 'Society event' },
+      { slug: 'student-group', label: 'Student group event' },
       { slug: 'sports', label: 'Sports' },
       { slug: 'cultural', label: 'Cultural festival' },
       { slug: 'meetup', label: 'Student meetup' },
@@ -242,19 +242,6 @@ export const INITIAL_TAXONOMY: {
       { slug: 'career', label: 'Career & networking' },
       { slug: 'entertainment', label: 'Entertainment' },
       { slug: 'other', label: 'Other' },
-    ],
-  },
-  {
-    kind: 'SOCIETY',
-    terms: [
-      { slug: 'engineering', label: 'Engineering & innovation' },
-      { slug: 'technology', label: 'Technology & programming' },
-      { slug: 'entrepreneurship', label: 'Entrepreneurship' },
-      { slug: 'arts-culture', label: 'Arts & culture' },
-      { slug: 'sports-team', label: 'Sports team' },
-      { slug: 'academic', label: 'Academic & professional' },
-      { slug: 'volunteering', label: 'Volunteering' },
-      { slug: 'interest-group', label: 'Interest group' },
     ],
   },
   {

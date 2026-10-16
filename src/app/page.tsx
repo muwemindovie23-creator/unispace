@@ -1,7 +1,7 @@
 import {
   CalendarDays,
   Lightbulb,
-  Megaphone,
+  Footprints,
   Store,
   Users,
   Vote,
@@ -18,7 +18,7 @@ import { listPublishedUniversities } from '@/modules/universities/queries'
 export const metadata: Metadata = {
   title: 'Which university would you like to explore?',
   description:
-    'Choose your campus on UniSpace and discover events, societies, student representatives, campus tips, polls and student-focused businesses.',
+    'Choose your campus on UniSpace and discover campus businesses, a virtual campus tour, events, student representatives, campus tips and polls.',
 }
 
 // Universities and their themes change rarely; revalidate rather than hitting
@@ -39,10 +39,10 @@ const EXPERIENCE_PREVIEW = [
       'Who represents you, what their portfolio covers and which office to contact.',
   },
   {
-    icon: Megaphone,
-    title: 'Societies & communities',
+    icon: Footprints,
+    title: 'Virtual campus tour',
     description:
-      'Find the clubs, teams and student communities you actually want to join.',
+      'Walk the campus before you arrive — the places students actually use, on a map.',
   },
   {
     icon: Lightbulb,
@@ -96,7 +96,7 @@ export default async function HomePage() {
               style={{ '--stagger': 2 } as React.CSSProperties}
             >
               UniSpace is the student side of campus: what’s happening, who represents you, which
-              societies exist, and the everyday things students wish they had known earlier.
+              is around campus, and the everyday things students wish they had known earlier.
             </p>
 
             <div

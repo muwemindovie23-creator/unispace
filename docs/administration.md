@@ -16,7 +16,7 @@ and last 48 hours.
 | --- | --- | --- |
 | **Super Admin** | Whole platform | Everything: universities, themes, administrators, settings, legal documents, audit log |
 | **University Admin** | One university | All campus-life content across that university's campuses, plus official links and homepage layout |
-| **Campus Admin** | Named campuses | Events, societies, SRC, tips, polls and business listings **for those campuses only** |
+| **Campus Admin** | Named campuses | Events, SRC, tips, polls, tour stops and business listings **for those campuses only** |
 | **Content Editor** | University or campus | Draft and edit content; cannot publish |
 | **Business Reviewer** | University or campus | Process business verification applications |
 

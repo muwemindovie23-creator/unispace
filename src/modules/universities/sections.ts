@@ -12,11 +12,11 @@ export const HOMEPAGE_SECTIONS = {
     description: 'Events happening across the university and its campuses.',
     href: 'events',
   },
-  societies: {
-    key: 'societies',
-    label: 'Societies & student communities',
-    description: 'Clubs, teams and communities students can join.',
-    href: 'societies',
+  tour: {
+    key: 'tour',
+    label: 'Virtual campus tour',
+    description: 'Walk the campus before you arrive — the places students actually use, on a map.',
+    href: 'tour',
   },
   src: {
     key: 'src',
@@ -55,7 +55,7 @@ export type HomepageSectionKey = keyof typeof HOMEPAGE_SECTIONS
 export const DEFAULT_SECTION_ORDER: HomepageSectionKey[] = [
   'events',
   'src',
-  'societies',
+  'tour',
   'tips',
   'polls',
   'businesses',

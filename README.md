@@ -3,7 +3,7 @@
 **Your campus. Your people. Your experience.**
 
 UniSpace is a student-centred university discovery and campus-life platform for Malawi's
-universities. One application serves every university: events, student representatives, societies,
+universities. One application serves every university: campus businesses, a virtual campus tour, events, student representatives,
 campus tips, polls and student-focused businesses, each university with its own identity.
 
 UniSpace covers the lived side of campus. It deliberately does **not** reproduce admissions,

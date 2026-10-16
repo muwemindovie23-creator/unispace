@@ -16,13 +16,13 @@ export const metadata: Metadata = {
     template: '%s · UniSpace',
   },
   description:
-    'UniSpace brings campus life together: events, student representatives, societies, campus tips, polls and student-focused businesses across Malawi’s universities.',
+    'UniSpace brings campus life together: campus businesses, a virtual campus tour, events, student representatives, campus tips and polls across Malawi’s universities.',
   openGraph: {
     type: 'website',
     siteName: 'UniSpace',
     title: 'UniSpace — Your campus. Your people. Your experience.',
     description:
-      'One platform. Different campus worlds. One student community. Discover events, societies, student representatives and campus tips.',
+      'One platform. Different campus worlds. One student community. Discover campus businesses, a virtual campus tour, events, student representatives and campus tips.',
   },
   robots: { index: true, follow: true },
 }
