@@ -29,22 +29,28 @@ export interface ThemeTokens {
  * The UniSpace house theme, used on the university-selection homepage and on
  * every page outside a university, and as the fallback for a university whose
  * theme has not been configured yet.
+ *
+ * These are Menty's own design tokens from mentmw.org, so the two products
+ * read as one family. The one deliberate change: Menty's `--teal` (#0098a3)
+ * gives white text 3.49:1, under WCAG AA, so we use their `--teal-deep`
+ * (#00727a, 5.69:1) where white sits on it. Keep this in step with the
+ * `:root` block in globals.css.
  */
 export const DEFAULT_THEME: ThemeTokens = {
-  primaryColor: '#4f2fd7',
+  primaryColor: '#00727a',
   primaryContrast: '#ffffff',
-  secondaryColor: '#0f172a',
+  secondaryColor: '#272754',
   secondaryContrast: '#ffffff',
-  accentColor: '#ff7a1a',
-  accentContrast: '#1f1300',
-  backgroundColor: '#fbfaff',
+  accentColor: '#8fdd36',
+  accentContrast: '#272754',
+  backgroundColor: '#f7f9fa',
   surfaceColor: '#ffffff',
-  surfaceMutedColor: '#f3f1fd',
-  textPrimaryColor: '#160f33',
-  textSecondaryColor: '#5b5676',
-  borderColor: '#e6e2f7',
-  highlightColor: '#ece7ff',
-  radius: '1.25rem',
+  surfaceMutedColor: '#eff2f5',
+  textPrimaryColor: '#1a1b28',
+  textSecondaryColor: '#5c617a',
+  borderColor: '#e0e4eb',
+  highlightColor: '#dbf1ff',
+  radius: '1rem',
   decorativePatternUrl: null,
 }
 

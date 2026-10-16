@@ -8,21 +8,33 @@
   so switching university switches the whole look without touching a component.
 */
 
+/*
+  The UniSpace house palette, taken from mentmw.org so the two products read as
+  one family. Values are Menty's own design tokens, converted from HSL.
+
+  One deliberate change: Menty's `--teal` (#0098a3) gives white text only
+  3.49:1, below WCAG AA. We use their own `--teal-deep` (#00727a, 5.69:1)
+  wherever white sits on it — same brand hue, and it clears the contrast gate
+  that blocks publishing an unreadable university theme.
+
+  University pages override every one of these through ThemeScope, so this is
+  the theme for the landing page and the rest of the platform shell.
+*/
 :root {
-  --us-primary: #4f2fd7;
+  --us-primary: #00727a; /* Menty --teal-deep */
   --us-primary-contrast: #ffffff;
-  --us-secondary: #0f172a;
+  --us-secondary: #272754; /* Menty --navy */
   --us-secondary-contrast: #ffffff;
-  --us-accent: #ff7a1a;
-  --us-accent-contrast: #1f1300;
-  --us-background: #fbfaff;
-  --us-surface: #ffffff;
-  --us-surface-muted: #f3f1fd;
-  --us-text: #160f33;
-  --us-text-muted: #5b5676;
-  --us-border: #e6e2f7;
-  --us-highlight: #ece7ff;
-  --us-radius: 1.25rem;
+  --us-accent: #8fdd36; /* Menty --green */
+  --us-accent-contrast: #272754;
+  --us-background: #f7f9fa; /* Menty --background */
+  --us-surface: #ffffff; /* Menty --card */
+  --us-surface-muted: #eff2f5; /* Menty --muted */
+  --us-text: #1a1b28; /* Menty --foreground */
+  --us-text-muted: #5c617a; /* Menty --muted-foreground */
+  --us-border: #e0e4eb; /* Menty --border */
+  --us-highlight: #dbf1ff; /* Menty --accent, pale sky */
+  --us-radius: 1rem; /* Menty --radius */
 }
 
 @theme inline {
@@ -42,7 +54,9 @@
 
   --radius-theme: var(--us-radius);
 
-  --font-sans: var(--font-display), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  /* Inter for body copy, Sora for headings — matching mentmw.org. */
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-display: var(--font-sora), var(--font-inter), ui-sans-serif, system-ui, sans-serif;
 
   --animate-rise: rise 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
   --animate-float: float 7s ease-in-out infinite;
@@ -88,6 +102,17 @@ body {
   color: var(--us-text);
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+}
+
+/*
+  Headings use Sora everywhere, as on mentmw.org. Done once here rather than as
+  a utility class on every heading, so the rule cannot drift between pages.
+  Sora's variable range stops at 800, so a `font-black` heading renders at 800 —
+  which is the weight Menty uses.
+*/
+:where(h1, h2, h3, h4, h5, h6) {
+  font-family: var(--font-display);
+  letter-spacing: -0.02em;
 }
 
 /* Visible, theme-aware focus ring on every interactive element. */

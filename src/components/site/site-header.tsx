@@ -28,10 +28,10 @@ export function SiteHeader() {
           <HeaderLink href="/contact">Contact</HeaderLink>
         </nav>
 
-        <ButtonLink href="#universities" size="sm" className="md:hidden">
+        <ButtonLink href="#universities" variant="accent" size="sm" className="md:hidden">
           Explore
         </ButtonLink>
-        <ButtonLink href="#universities" size="sm" className="hidden md:inline-flex">
+        <ButtonLink href="#universities" variant="accent" size="sm" className="hidden md:inline-flex">
           Choose your campus
         </ButtonLink>
       </Container>

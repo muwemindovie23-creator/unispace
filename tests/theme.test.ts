@@ -1,3 +1,5 @@
+import { readFileSync } from 'node:fs'
+ import { join } from 'node:path'
 import { describe, expect, it } from 'vitest'
 
 import {
@@ -100,5 +102,38 @@ describe('seed data honesty', () => {
   it('uses unique slugs', () => {
     const slugs = INITIAL_UNIVERSITIES.map((university) => university.slug)
     expect(new Set(slugs).size).toBe(slugs.length)
+  })
+})
+
+describe('house theme matches the stylesheet', () => {
+  // DEFAULT_THEME (server-rendered fallback) and the `:root` block in
+  // globals.css (what the browser uses before any ThemeScope) must agree, or
+  // pages outside a university render one palette and universities fall back
+  // to another. Two sources of truth, so this pins them together.
+  const css = readFileSync(join(process.cwd(), 'src/app/globals.css'), 'utf8')
+  const rootBlock = /:root\s*\{([^}]*)\}/.exec(css)?.[1] ?? ''
+
+  const readVar = (name: string) =>
+    new RegExp(`${name}\s*:\s*([^;]+);`).exec(rootBlock)?.[1].split('/*')[0].trim()
+
+  const pairs: [string, keyof typeof DEFAULT_THEME][] = [
+    ['--us-primary', 'primaryColor'],
+    ['--us-primary-contrast', 'primaryContrast'],
+    ['--us-secondary', 'secondaryColor'],
+    ['--us-secondary-contrast', 'secondaryContrast'],
+    ['--us-accent', 'accentColor'],
+    ['--us-accent-contrast', 'accentContrast'],
+    ['--us-background', 'backgroundColor'],
+    ['--us-surface', 'surfaceColor'],
+    ['--us-surface-muted', 'surfaceMutedColor'],
+    ['--us-text', 'textPrimaryColor'],
+    ['--us-text-muted', 'textSecondaryColor'],
+    ['--us-border', 'borderColor'],
+    ['--us-highlight', 'highlightColor'],
+    ['--us-radius', 'radius'],
+  ]
+
+  it.each(pairs)('%s matches DEFAULT_THEME.%s', (cssVar, token) => {
+    expect(readVar(cssVar)).toBe(DEFAULT_THEME[token])
   })
 })

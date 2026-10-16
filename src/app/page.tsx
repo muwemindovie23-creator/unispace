@@ -103,7 +103,7 @@ export default async function HomePage() {
               className="us-stagger mt-8 flex flex-wrap items-center justify-center gap-3"
               style={{ '--stagger': 3 } as React.CSSProperties}
             >
-              <ButtonLink href="#universities" size="lg">
+              <ButtonLink href="#universities" variant="accent" size="lg">
                 Choose your campus
               </ButtonLink>
               <ButtonLink href="/businesses/verify" variant="outline" size="lg">
