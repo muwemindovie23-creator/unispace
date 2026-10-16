@@ -16,8 +16,15 @@ const INITIAL: ActionState = {}
  * public page shows that sentence next to the badge, so a decision with no
  * record of what was checked would make the badge meaningless.
  */
-export function VerificationDecisionForm({ applicationId }: { applicationId: string }) {
+export function VerificationDecisionForm({
+  applicationId,
+  canPublish,
+}: {
+  applicationId: string
+  canPublish: boolean
+}) {
   const [isOpen, setIsOpen] = useState(false)
+  const [decision, setDecision] = useState('VERIFIED')
   const [state, formAction] = useActionState(decideBusinessApplicationAction, INITIAL)
 
   if (state.success) {
@@ -54,6 +61,8 @@ export function VerificationDecisionForm({ applicationId }: { applicationId: str
           id={`decision-${applicationId}`}
           name="decision"
           required
+          value={decision}
+          onChange={(event) => setDecision(event.target.value)}
           className="h-10 w-full rounded-lg border-2 border-hairline bg-surface px-3 text-sm text-content focus:border-brand focus:outline-none"
         >
           <option value="VERIFIED">Verified — identity and contact details confirmed</option>
@@ -61,6 +70,43 @@ export function VerificationDecisionForm({ applicationId }: { applicationId: str
           <option value="REJECTED">Rejected — cannot be listed</option>
         </select>
       </div>
+
+      {/* Verifying creates a listing but does not make it public. Saying so
+          here, at the moment of the decision, is the whole point. */}
+      {decision === 'VERIFIED' ? (
+        <div className="rounded-xl border border-hairline bg-surface-muted/70 p-3.5">
+          {canPublish ? (
+            <>
+              <div className="flex items-start gap-2.5">
+                <input
+                  id={`publish-${applicationId}`}
+                  name="publishNow"
+                  type="checkbox"
+                  defaultChecked
+                  className="mt-0.5 h-4 w-4 shrink-0 rounded border-hairline accent-[var(--us-primary)]"
+                />
+                <label
+                  htmlFor={`publish-${applicationId}`}
+                  className="text-sm font-semibold text-content"
+                >
+                  Publish the listing straight away
+                </label>
+              </div>
+              <p className="mt-1.5 pl-7 text-xs text-content-muted">
+                The listing starts from the applicant’s own words. Untick this if you want to edit
+                the copy before students see it — it will be saved as a draft instead, and{' '}
+                <strong>will not appear in the directory until you publish it</strong>.
+              </p>
+            </>
+          ) : (
+            <p className="text-xs text-content-muted">
+              A listing will be created as a <strong>draft</strong>. You do not have permission to
+              publish listings here, so it will not appear in the directory until someone who does
+              reviews and publishes it.
+            </p>
+          )}
+        </div>
+      ) : null}
 
       <div>
         <label

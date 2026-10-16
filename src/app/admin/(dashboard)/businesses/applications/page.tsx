@@ -58,7 +58,7 @@ export default async function ApplicationsPage({
       campusId: true,
       university: { select: { acronym: true } },
       campus: { select: { name: true } },
-      business: { select: { id: true } },
+      business: { select: { id: true, status: true, slug: true } },
     },
   })
 
@@ -174,20 +174,54 @@ export default async function ApplicationsPage({
                   </dl>
 
                   {application.business ? (
-                    <p className="mt-4 text-xs text-content-muted">
-                      A listing already exists for this application.
-                    </p>
+                    application.business.status === 'PUBLISHED' ? (
+                      <p className="mt-4 text-xs text-content-muted">
+                        Listing is live.{' '}
+                        <Link
+                          href={`/admin/universities/${application.universityId}/businesses/${application.business.id}`}
+                          className="font-semibold text-brand hover:underline"
+                        >
+                          Edit it
+                        </Link>
+                      </p>
+                    ) : (
+                      // The step that was easy to miss: a verified application
+                      // produces a listing that is not public yet.
+                      <div className="mt-4 rounded-xl border border-amber-300 bg-amber-50 px-3.5 py-3">
+                        <p className="text-sm font-bold text-amber-950">
+                          Listing created, but not public yet
+                        </p>
+                        <p className="mt-1 text-sm text-amber-900">
+                          It is saved as a{' '}
+                          <strong>{application.business.status.toLowerCase().replace('_', ' ')}</strong>
+                          , so students cannot see it in the directory. Review the copy and set its
+                          status to Published.
+                        </p>
+                        <Link
+                          href={`/admin/universities/${application.universityId}/businesses/${application.business.id}`}
+                          className="mt-2 inline-block text-xs font-bold text-amber-950 underline underline-offset-2"
+                        >
+                          Open the listing and publish it →
+                        </Link>
+                      </div>
+                    )
                   ) : null}
 
-                  {mayDecide ? (
+                  {mayDecide && !application.business ? (
                     <div className="mt-4">
-                      <VerificationDecisionForm applicationId={application.id} />
+                      <VerificationDecisionForm
+                        applicationId={application.id}
+                        canPublish={can(actor, PERMISSIONS.BUSINESS_PUBLISH, {
+                          universityId: application.universityId,
+                          campusId: application.campusId,
+                        })}
+                      />
                     </div>
-                  ) : (
+                  ) : !mayDecide ? (
                     <p className="mt-4 text-xs text-content-muted">
                       You can see this application but cannot decide it.
                     </p>
-                  )}
+                  ) : null}
                 </Card>
               </li>
             )

@@ -101,6 +101,12 @@ export const verificationDecisionSchema = z.object({
   /** What was actually checked. The badge means only this. */
   checksPerformed: plainText(5, 600, 'A record of what you checked'),
   note: optionalText(1000),
+  /**
+   * Publish the resulting listing immediately instead of leaving it as a
+   * draft. Requires the publish permission, checked in the action — a reviewer
+   * who may verify is not automatically a reviewer who may publish.
+   */
+  publishNow: checkbox,
 })
 
 export const businessReportSchema = z.object({

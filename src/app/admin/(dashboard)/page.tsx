@@ -2,6 +2,7 @@ import { AlertTriangle, Building2, CheckCircle2, Globe2 } from 'lucide-react'
 import Link from 'next/link'
 
 import { Badge, Card, EmptyState, SectionHeading } from '@/components/ui/primitives'
+import { db } from '@/lib/db'
 import { getSettings, SETTING_KEYS } from '@/lib/settings'
 import { formatDateTime } from '@/lib/utils'
 import { requireActor } from '@/modules/admin/guard'
@@ -12,7 +13,8 @@ export default async function AdminOverviewPage() {
   const actor = await requireActor()
   const scope = visibleUniverseOf(actor)
 
-  const [universities, settings, recentAudit] = await Promise.all([
+  const [universities, settings, recentAudit, unpublishedVerified, pendingApplications] =
+    await Promise.all([
     listManageableUniversities(actor),
     can(actor, PERMISSIONS.PLATFORM_SETTINGS_MANAGE)
       ? getSettings([
@@ -24,6 +26,16 @@ export default async function AdminOverviewPage() {
         ])
       : Promise.resolve(null),
     can(actor, PERMISSIONS.PLATFORM_AUDIT_READ) ? listRecentAudit(8) : Promise.resolve([]),
+    // Verified businesses that are not public yet. Easy to create and then
+    // forget, so the dashboard says so rather than leaving them stranded.
+    can(actor, PERMISSIONS.BUSINESS_READ)
+      ? db.campusBusiness.count({
+          where: { verificationStatus: 'VERIFIED', status: { not: 'PUBLISHED' } },
+        })
+      : Promise.resolve(0),
+    can(actor, PERMISSIONS.BUSINESS_APPLICATION_READ)
+      ? db.businessApplication.count({ where: { status: 'PENDING' } })
+      : Promise.resolve(0),
   ])
 
   const unconfiguredSettings = settings
@@ -53,6 +65,8 @@ export default async function AdminOverviewPage() {
       {/* ------------------------------------------------ Things needing action */}
       {(unconfiguredSettings.length > 0 ||
         unconfirmedWebsites.length > 0 ||
+        unpublishedVerified > 0 ||
+        pendingApplications > 0 ||
         settings?.[SETTING_KEYS.LEGAL_REVIEW_STATUS] === 'pending') && (
         <section>
           <SectionHeading
@@ -61,6 +75,34 @@ export default async function AdminOverviewPage() {
             className="mb-5"
           />
           <ul className="grid gap-3 md:grid-cols-2">
+            {unpublishedVerified > 0 ? (
+              <li>
+                <ActionCard
+                  tone="caution"
+                  title={`${unpublishedVerified} verified business${
+                    unpublishedVerified === 1 ? '' : 'es'
+                  } not published`}
+                  description="These passed verification but are still drafts, so students cannot see them in the directory. Review the copy and publish."
+                  href="/admin/businesses/applications"
+                  cta="Publish them"
+                />
+              </li>
+            ) : null}
+
+            {pendingApplications > 0 ? (
+              <li>
+                <ActionCard
+                  tone="caution"
+                  title={`${pendingApplications} business application${
+                    pendingApplications === 1 ? '' : 's'
+                  } waiting`}
+                  description="Businesses have applied to be listed and are waiting for someone to check them."
+                  href="/admin/businesses/applications"
+                  cta="Open the queue"
+                />
+              </li>
+            ) : null}
+
             {unconfiguredSettings.length > 0 ? (
               <li>
                 <ActionCard

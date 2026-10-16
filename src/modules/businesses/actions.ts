@@ -9,7 +9,7 @@ import { assertSameOrigin } from '@/lib/auth/session'
 import { db } from '@/lib/db'
 import { rateLimit } from '@/lib/rate-limit'
 import { requireActor } from '@/modules/admin/guard'
-import { assertCan, PERMISSIONS } from '@/modules/admin/rbac'
+import { assertCan, can, PERMISSIONS } from '@/modules/admin/rbac'
 import {
   businessApplicationSchema,
   businessReportSchema,
@@ -286,7 +286,7 @@ export async function decideBusinessApplicationAction(
   const parsed = verificationDecisionSchema.safeParse(Object.fromEntries(formData.entries()))
   if (!parsed.success) return { error: firstIssue(parsed.error) }
 
-  const { applicationId, decision, checksPerformed, note } = parsed.data
+  const { applicationId, decision, checksPerformed, note, publishNow } = parsed.data
   const actor = await requireActor()
 
   const application = await db.businessApplication.findUnique({
@@ -310,6 +310,23 @@ export async function decideBusinessApplicationAction(
     universityId: application.universityId,
     campusId: application.campusId,
   })
+
+  // Publishing straight from the queue is a convenience, not a loosening:
+  // the reviewer must separately hold the publish permission in this scope.
+  const shouldPublish =
+    publishNow &&
+    decision === 'VERIFIED' &&
+    can(actor, PERMISSIONS.BUSINESS_PUBLISH, {
+      universityId: application.universityId,
+      campusId: application.campusId,
+    })
+
+  if (publishNow && decision === 'VERIFIED' && !shouldPublish) {
+    return {
+      error:
+        'You can verify this application but not publish listings here. Record the decision without publishing, and ask someone with the publish permission to review the copy.',
+    }
+  }
 
   const now = new Date()
   // A badge is not forever. Verification lapses and has to be renewed.
@@ -343,8 +360,9 @@ export async function decideBusinessApplicationAction(
     })
 
     if (decision === 'VERIFIED' && !application.business) {
-      // Created as a DRAFT on purpose: verifying identity is not the same as
-      // deciding the listing copy is ready to publish.
+      // Defaults to DRAFT: verifying identity is not the same as deciding the
+      // listing copy — which is the applicant's own words — is ready to
+      // publish. The reviewer can opt into publishing now.
       await tx.campusBusiness.create({
         data: {
           universityId: application.universityId,
@@ -358,7 +376,8 @@ export async function decideBusinessApplicationAction(
             .slice(0, 60)}-${application.id.slice(-5)}`,
           description: application.description,
           locationNote: application.locationNote,
-          status: 'DRAFT',
+          status: shouldPublish ? 'PUBLISHED' : 'DRAFT',
+          publishedAt: shouldPublish ? now : null,
           verificationStatus: 'VERIFIED',
           lastVerifiedAt: now,
           verificationExpiresAt: expiresAt,
@@ -385,16 +404,21 @@ export async function decideBusinessApplicationAction(
     universityId: application.universityId,
     campusId: application.campusId,
     // The decision and what was checked, never the applicant's contact details.
-    metadata: { decision, businessName: application.businessName },
+    metadata: { decision, businessName: application.businessName, published: shouldPublish },
   })
 
   revalidatePath('/admin/businesses/applications')
+  revalidatePath('/admin')
   revalidatePath(`/universities/${application.university.slug}/businesses`)
+  revalidatePath(`/universities/${application.university.slug}/tour`)
+
+  if (decision !== 'VERIFIED') {
+    return { success: `Recorded as ${decision.toLowerCase().replace('_', ' ')}.` }
+  }
 
   return {
-    success:
-      decision === 'VERIFIED'
-        ? 'Verified. A draft listing has been created — review the copy, then publish it.'
-        : `Recorded as ${decision.toLowerCase().replace('_', ' ')}.`,
+    success: shouldPublish
+      ? 'Verified and published. The listing is live in the campus business directory now.'
+      : 'Verified. A listing has been created as a DRAFT, so it is not public yet — open it below to review the copy and publish it.',
   }
 }
