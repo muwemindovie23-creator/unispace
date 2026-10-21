@@ -7,6 +7,7 @@ import {
   Vote,
 } from 'lucide-react'
 import type { Metadata } from 'next'
+import Image from 'next/image'
 
 import { SiteFooter } from '@/components/site/site-footer'
 import { SiteHeader } from '@/components/site/site-header'
@@ -75,21 +76,28 @@ export default async function HomePage() {
         {/* ------------------------------------------------------------- Hero */}
         <section className="relative overflow-hidden">
           <div aria-hidden className="pointer-events-none absolute inset-0 -z-10">
-            <div className="absolute -left-24 -top-24 h-72 w-72 rounded-full bg-brand/15 blur-3xl animate-[float_9s_ease-in-out_infinite]" />
-            <div className="absolute right-[-6rem] top-24 h-80 w-80 rounded-full bg-accent/20 blur-3xl animate-[float_11s_ease-in-out_infinite_reverse]" />
+            <Image
+              src="/hero-students.jpg"
+              alt=""
+              fill
+              priority
+              sizes="100vw"
+              className="object-cover object-[50%_42%]"
+            />
+            <div className="absolute inset-0 bg-gradient-to-b from-[#0b2c5c]/80 via-[#0b2c5c]/65 to-[#0b2c5c]/85" />
           </div>
-          
-          <Container className="pb-12 pt-16 text-center sm:pt-24">
+
+          <Container className="pb-20 pt-20 text-center sm:pb-28 sm:pt-32">
 
             <h1
-              className="us-stagger mx-auto max-w-4xl text-balance text-4xl font-black leading-[1.05] tracking-tight text-content sm:text-6xl"
+              className="us-stagger mx-auto max-w-4xl text-balance text-4xl font-black leading-[1.05] tracking-tight text-white sm:text-6xl"
               style={{ '--stagger': 1 } as React.CSSProperties}
             >
               Which university would you like to explore?
             </h1>
 
             <p
-              className="us-stagger mx-auto mt-5 max-w-2xl text-pretty text-base text-content-muted sm:text-lg"
+              className="us-stagger mx-auto mt-5 max-w-2xl text-pretty text-base text-white/90 sm:text-lg"
               style={{ '--stagger': 2 } as React.CSSProperties}
             >
               UniSpace is the student side of campus: As a product in the Menty ecosystem, it's goal is to show you around campus from the view of those who've been there from what’s happening, who represents you, and the everyday things students wish they had known earlier.
