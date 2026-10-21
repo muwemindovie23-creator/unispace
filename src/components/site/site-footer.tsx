@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import Link from 'next/link'
 
 import { Container } from '@/components/ui/primitives'
@@ -30,7 +31,8 @@ export async function SiteFooter() {
       <Container className="py-12">
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
           <div>
-            <p className="text-lg font-extrabold tracking-tight text-content">UniSpace</p>
+            <Image src="/logo.png" alt="UniSpace" width={940} height={690} className="h-20 w-auto" />
+            
             <p className="mt-2 max-w-xs text-sm text-content-muted">
               One platform. Different campus worlds. One student community.
             </p>
