@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import Link from 'next/link'
 
 import { ButtonLink } from '@/components/ui/button'
@@ -11,14 +12,19 @@ export function SiteHeader() {
   return (
     <header className="sticky top-0 z-40 border-b border-hairline/70 bg-canvas/85 backdrop-blur-md">
       <Container className="flex h-16 items-center justify-between gap-4">
-        <Link href="/" className="group flex items-center gap-2.5">
-          <span
-            aria-hidden
-            className="grid h-9 w-9 place-items-center rounded-xl bg-brand text-sm font-black text-brand-contrast transition-transform duration-300 group-hover:-rotate-6"
-          >
-            US
+        <Link href="/" aria-label="UniSpace home" className="group flex items-center gap-2.5">
+          <Image
+            src="/logo-mark.png"
+            alt=""
+            width={36}
+            height={36}
+            priority
+            className="h-9 w-9 transition-transform duration-300 group-hover:-rotate-6"
+          />
+          <span className="text-lg font-extrabold tracking-tight">
+            <span className="text-[#0b2c5c]">Uni</span>
+            <span className="text-[#039e96]">Space</span>
           </span>
-          <span className="text-base font-extrabold tracking-tight text-content">UniSpace</span>
         </Link>
 
         <nav aria-label="Primary" className="hidden items-center gap-1 md:flex">
